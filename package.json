@@ -1,0 +1,80 @@
+{
+  "name": "aelf-token-bonus",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "repository": "git@github.com:AElfProject/aelf-token-bonus.git",
+  "author": "atom-young <atom.yang@aelf.io>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start": "cross-env NODE_ENV=production EGG_SERVER_ENV=prod egg-scripts start --port 7851 --daemon --title=egg-bingo-game-server",
+    "stop": "egg-scripts stop --title=egg-bingo-game-server",
+    "dev": "cross-env NODE_ENV=development EGG_SERVER_ENV=local egg-bin dev --port 7851",
+    "debug": "egg-bin debug --port 7851",
+    "autod": "autod",
+    "lint": "eslint app",
+    "test": "egg-bin test",
+    "cov": "egg-bin cov",
+    "commit": "git-cz",
+    "ci": "npm run lint && NODE_ENV=test npx sequelize db:migrate && npm run cov"
+  },
+  "dependencies": {
+    "aelf-sdk": "^3.2.17",
+    "egg": "2.23.0",
+    "egg-scripts": "^2.5.0",
+    "egg-sequelize": "^5.2.0",
+    "egg-validate": "^2.0.2",
+    "moment": "^2.24.0",
+    "mysql2": "^1.6.5"
+  },
+  "devDependencies": {
+    "autod": "^3.0.1",
+    "autod-egg": "^1.0.0",
+    "babel-eslint": "^10.0.2",
+    "chalk": "^2.4.2",
+    "commitizen": "^4.0.3",
+    "cross-env": "^5.2.0",
+    "egg-bin": "^4.3.7",
+    "egg-mock": "^3.19.2",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-config-egg": "^7.0.0",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-import": "^2.18.2",
+    "factory-girl": "^5.0.2",
+    "git-cz": "^3.2.1",
+    "husky": "^3.0.2",
+    "lint-staged": "^9.2.1",
+    "rimraf": "^2.6.3",
+    "sequelize-cli": "^5.5.0"
+  },
+  "engines": {
+    "node": ">=10.9.0"
+  },
+  "ci": {
+    "version": "10"
+  },
+  "eslintIgnore": [
+    "coverage",
+    "dist"
+  ],
+  "files": [
+    "lib",
+    "index.js"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "node scripts/verify-commit-msg.js"
+    }
+  },
+  "lint-staged": {
+    "*.js": "eslint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
