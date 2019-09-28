@@ -9,6 +9,8 @@
     '2113': 'https://explorer-test-side02.aelf.io/',
   };
 
+  var csrfToken = document.cookie && document.cookie.match(/csrfToken=[^;]*/)[0].replace('csrfToken=', '');
+
   // eslint-disable-next-line no-undef
   window.addEventListener('load', function () {
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -26,30 +28,38 @@
           var symbol = $('#tokenSymbol')[0].value;
           var memo = $('#transferMemo')[0].value;
 
-          $.post('/api/token/apply', {
-            address: address,
-            symbol: symbol,
-            memo: memo
-          },
-          function (data, status) {
-            console.log(data, status);
-            if (data.code === 0) {
-              var htmlTemp = '';
-              // https://explorer-test.aelf.io/tx/8388b68fff49ae58dff7ea524ea96c93538782613120e25d20bae85e69279871
-              for (var i = 0, len = data.data.length; i < len; i++) {
-                var dataTemp = data.data[i];
-                var linkTemp = websiteList[dataTemp.chainId] + '/tx/' + dataTemp.txId
-                htmlTemp += '<div><b>ChainID:</b> </div>' + dataTemp.chainId;
-                htmlTemp += '<div><b>Symbol:</b> </div>' + dataTemp.symbol;
-                htmlTemp += '<div><b>Transaction ID:</b> </div>' + dataTemp.txId;
-                htmlTemp += '<div><b>Explorer:</b> </div>';
-                htmlTemp += '<div><a href="' + linkTemp + '" target="_blank">' + linkTemp + '</a></div>';
-                htmlTemp += '<div> &nbsp; </div>';
+          $.ajax({
+            type: 'POST',
+            url: '/api/token/apply',
+            data: {
+              address: address,
+              symbol: symbol,
+              memo: memo
+            },
+            headers: {
+              'x-csrf-token': csrfToken
+            },
+            // dataType: dataType,
+            success: function (data, status) {
+              console.log(data, status);
+              if (data.code === 0) {
+                var htmlTemp = '';
+                // https://explorer-test.aelf.io/tx/8388b68fff49ae58dff7ea524ea96c93538782613120e25d20bae85e69279871
+                for (var i = 0, len = data.data.length; i < len; i++) {
+                  var dataTemp = data.data[i];
+                  var linkTemp = websiteList[dataTemp.chainId] + '/tx/' + dataTemp.txId
+                  htmlTemp += '<div><b>ChainID:</b> </div>' + dataTemp.chainId;
+                  htmlTemp += '<div><b>Symbol:</b> </div>' + dataTemp.symbol;
+                  htmlTemp += '<div><b>Transaction ID:</b> </div>' + dataTemp.txId;
+                  htmlTemp += '<div><b>Explorer:</b> </div>';
+                  htmlTemp += '<div><a href="' + linkTemp + '" target="_blank">' + linkTemp + '</a></div>';
+                  htmlTemp += '<div> &nbsp; </div>';
+                }
+                $('#applyResult').html(htmlTemp);
+                $('#resultContainer').show();
+              } else {
+                alert(data.msg);
               }
-              $('#applyResult').html(htmlTemp);
-              $('#resultContainer').show();
-            } else {
-              alert(data.msg);
             }
           });
         }
