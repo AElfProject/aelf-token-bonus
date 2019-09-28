@@ -3,6 +3,12 @@
 (function () {
   'use strict'
 
+  var websiteList = {
+    'AELF': 'https://explorer-test.aelf.io',
+    '2112': 'https://explorer-test-side01.aelf.io/',
+    '2113': 'https://explorer-test-side02.aelf.io/',
+  };
+
   // eslint-disable-next-line no-undef
   window.addEventListener('load', function () {
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -29,14 +35,19 @@
             console.log(data, status);
             if (data.code === 0) {
               var htmlTemp = '';
+              // https://explorer-test.aelf.io/tx/8388b68fff49ae58dff7ea524ea96c93538782613120e25d20bae85e69279871
               for (var i = 0, len = data.data.length; i < len; i++) {
                 var dataTemp = data.data[i];
+                var linkTemp = websiteList[dataTemp.chainId] + '/tx/' + dataTemp.txId
                 htmlTemp += '<div><b>ChainID:</b> </div>' + dataTemp.chainId;
                 htmlTemp += '<div><b>Symbol:</b> </div>' + dataTemp.symbol;
                 htmlTemp += '<div><b>Transaction ID:</b> </div>' + dataTemp.txId;
+                htmlTemp += '<div><b>Explorer:</b> </div>';
+                htmlTemp += '<div><a href="' + linkTemp + '" target="_blank">' + linkTemp + '</a></div>';
                 htmlTemp += '<div> &nbsp; </div>';
               }
               $('#applyResult').html(htmlTemp);
+              $('#resultContainer').show();
             } else {
               alert(data.msg);
             }
@@ -55,6 +66,7 @@
       $("#privateKey").html('<div>privateKey: </div>' + wallet.privateKey);
       $("#walletAddress").html('<div>address: </div>' + wallet.address);
       $("#BIP44Path").html('<div>BIP44Path: </div>' + wallet.BIP44Path);
+      $('#walletContainer').show();
     });
 
   }, false);
