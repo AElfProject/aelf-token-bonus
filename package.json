@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "aelf-sdk": "^3.2.17",
+    "bignumber.js": "^9.0.0",
     "egg": "2.23.0",
     "egg-scripts": "^2.5.0",
     "egg-sequelize": "^5.2.0",

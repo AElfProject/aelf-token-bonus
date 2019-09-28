@@ -2,6 +2,7 @@
  * @file init csrf token
  * @author atom-yang
  */
+const BigNumber = require('bignumber.js');
 const Controller = require('../core/baseController');
 
 class TokenController extends Controller {
@@ -60,11 +61,18 @@ class TokenController extends Controller {
             tokenContract,
             chainId
           } = value;
+          const {
+            decimals
+            // eslint-disable-next-line no-await-in-loop
+          } = await tokenContract.GetTokenInfo({
+            symbol
+          });
+          const coef = new BigNumber(`1e${decimals}`);
           // eslint-disable-next-line no-await-in-loop
           const tx = await tokenContract.Transfer({
             to: address,
             symbol,
-            amount,
+            amount: coef.times(new BigNumber(amount)).toString(),
             memo
           });
           const {
