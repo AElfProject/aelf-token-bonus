@@ -2,6 +2,8 @@
  * @file config file
  * @author atom-yang
  */
+const fs = require('fs');
+const path = require('path');
 
 module.exports = appInfo => {
   exports = {};
@@ -13,6 +15,17 @@ module.exports = appInfo => {
   // add your config here
   config.middleware = [];
 
+  config.view = {
+    defaultViewEngine: 'nunjucks',
+    mapping: {
+      '.tpl': 'nunjucks'
+    }
+  };
+
+  config.siteFile = {
+    '/favicon.ico': fs.readFileSync(path.join(__dirname, '../favicon.ico')),
+  };
+
   // change to your own sequelize configurations
   config.sequelize = {
     dialect: 'mysql',
@@ -20,7 +33,7 @@ module.exports = appInfo => {
     port: 3306,
     database: 'aelf_bonus',
     username: 'root',
-    password: 'password',
+    password: '',
     pool: {
       max: 10,
       min: 0,
