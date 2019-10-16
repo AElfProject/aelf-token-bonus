@@ -64,9 +64,10 @@ class TokenController extends Controller {
           const {
             decimals
             // eslint-disable-next-line no-await-in-loop
-          } = await tokenContract.GetTokenInfo({
+          } = await tokenContract.GetTokenInfo.call({
             symbol
           });
+
           const coef = new BigNumber(`1e${decimals}`);
           // eslint-disable-next-line no-await-in-loop
           const tx = await tokenContract.Transfer({

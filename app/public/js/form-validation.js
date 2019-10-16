@@ -5,8 +5,9 @@
 
   var websiteList = {
     'AELF': 'https://explorer-test.aelf.io',
-    '2112': 'https://explorer-test-side01.aelf.io/',
-    '2113': 'https://explorer-test-side02.aelf.io/',
+    'TELF': 'https://explorer-test.aelf.io',
+    '2112': 'https://explorer-test-side01.aelf.io',
+    '2113': 'https://explorer-test-side02.aelf.io',
   };
 
   var csrfToken = document.cookie && document.cookie.match(/csrfToken=[^;]*/)[0].replace('csrfToken=', '');
