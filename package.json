@@ -8,8 +8,8 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start": "cross-env NODE_ENV=production EGG_SERVER_ENV=prod egg-scripts start --port 7851 --daemon --title=egg-bingo-game-server",
-    "stop": "egg-scripts stop --title=egg-bingo-game-server",
+    "start": "cross-env NODE_ENV=production EGG_SERVER_ENV=prod egg-scripts start --port 7851 --daemon --title=egg-token-bonus",
+    "stop": "egg-scripts stop --title=egg-token-bonus",
     "dev": "cross-env NODE_ENV=development EGG_SERVER_ENV=local egg-bin dev --port 7851",
     "debug": "egg-bin debug --port 7851",
     "autod": "autod",
