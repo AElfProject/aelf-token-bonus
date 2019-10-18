@@ -29,10 +29,6 @@ class TokenController extends Controller {
         type: 'string',
         required: true
       },
-      symbol: {
-        type: 'string',
-        required: true
-      },
       memo: {
         type: 'string',
         required: false
