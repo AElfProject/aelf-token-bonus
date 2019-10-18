@@ -43,7 +43,7 @@
             // dataType: dataType,
             success: function (data, status) {
               console.log(data, status);
-              if (data.code === 0) {
+              if (+data.code === 0) {
                 var htmlTemp = '';
                 // https://explorer-test.aelf.io/tx/8388b68fff49ae58dff7ea524ea96c93538782613120e25d20bae85e69279871
                 for (var i = 0, len = data.data.length; i < len; i++) {
@@ -64,7 +64,7 @@
             }
           });
         }
-        form.classList.add('was-validated')
+        form.classList.add('was-validated');
 
         event.preventDefault()
         event.stopPropagation()
