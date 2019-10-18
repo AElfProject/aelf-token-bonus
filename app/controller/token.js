@@ -2,6 +2,7 @@
  * @file init csrf token
  * @author atom-yang
  */
+const AElf = require('aelf-sdk');
 const BigNumber = require('bignumber.js');
 const Controller = require('../core/baseController');
 
@@ -47,6 +48,11 @@ class TokenController extends Controller {
         nodes,
         amount
       } = app.config.aelf;
+      try {
+        AElf.utils.base58.decode(address);
+      } catch (e) {
+        throw new Error(`${address} is not a valid AElf wallet address`);
+      }
       const hasAppliedResult = await ctx.model.Token.hasAppliedToken(address, symbol);
       if (hasAppliedResult.length > 0) {
         this.error({
