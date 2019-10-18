@@ -55,17 +55,20 @@ module.exports = appInfo => {
       main: {
         endpoint: 'http://192.168.197.14:8000',
         chainId: 'AELF',
-        nativeTokenSymbol: ''
+        nativeTokenSymbol: '',
+        primaryTokenSymbol: ''
       },
       side01: {
         endpoint: 'http://192.168.197.14:8001',
         chainId: '',
-        nativeTokenSymbol: ''
+        nativeTokenSymbol: '',
+        primaryTokenSymbol: ''
       },
       side02: {
         endpoint: 'http://192.168.197.14:8002',
         chainId: '',
-        nativeTokenSymbol: ''
+        nativeTokenSymbol: '',
+        primaryTokenSymbol: ''
       }
     },
     amount: 1000,

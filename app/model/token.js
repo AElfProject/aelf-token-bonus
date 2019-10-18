@@ -8,7 +8,8 @@ module.exports = app => {
     STRING,
     BIGINT,
     DATE,
-    NOW
+    NOW,
+    Op
   } = app.Sequelize;
 
   const Bonus = app.model.define('tokenBonus', {
@@ -88,12 +89,14 @@ module.exports = app => {
     return result;
   };
 
-  Bonus.hasAppliedToken = async function(address, symbol) {
+  Bonus.hasAppliedToken = async function(address, symbol = []) {
     const result = await this.findAll({
       attributes: [ 'txId', 'chainId' ],
       where: {
         address,
-        symbol
+        symbol: {
+          [Op.in]: symbol
+        }
       }
     });
     return result;

@@ -15,7 +15,8 @@ class TokenController extends Controller {
       return {
         name,
         chainId: value.chainId,
-        symbol: value.nativeTokenSymbol
+        nativeTokenSymbol: value.nativeTokenSymbol,
+        primaryTokenSymbol: value.primaryTokenSymbol
       };
     });
     this.sendBody(result);
@@ -26,11 +27,11 @@ class TokenController extends Controller {
     const rule = {
       address: {
         type: 'string',
-        required: 'true'
+        required: true
       },
       symbol: {
         type: 'string',
-        required: 'true'
+        required: true
       },
       memo: {
         type: 'string',
@@ -41,7 +42,6 @@ class TokenController extends Controller {
       this.validate(rule);
       const {
         address,
-        symbol,
         memo
       } = ctx.request.body;
       const {
@@ -53,7 +53,8 @@ class TokenController extends Controller {
       } catch (e) {
         throw new Error(`${address} is not a valid AElf wallet address`);
       }
-      const hasAppliedResult = await ctx.model.Token.hasAppliedToken(address, symbol);
+      const allChainsSymbols = Object.values(nodes).map(v => v.primaryTokenSymbol);
+      const hasAppliedResult = await ctx.model.Token.hasAppliedToken(address, allChainsSymbols);
       if (hasAppliedResult.length > 0) {
         this.error({
           code: 300,
@@ -65,20 +66,21 @@ class TokenController extends Controller {
         for (const [ , value ] of Object.entries(nodes)) {
           const {
             tokenContract,
-            chainId
+            chainId,
+            primaryTokenSymbol
           } = value;
           const {
             decimals
             // eslint-disable-next-line no-await-in-loop
           } = await tokenContract.GetTokenInfo.call({
-            symbol
+            symbol: primaryTokenSymbol
           });
 
           const coef = new BigNumber(`1e${decimals}`);
           // eslint-disable-next-line no-await-in-loop
           const tx = await tokenContract.Transfer({
             to: address,
-            symbol,
+            symbol: primaryTokenSymbol,
             amount: coef.times(new BigNumber(amount)).toString(),
             memo
           });
@@ -88,7 +90,7 @@ class TokenController extends Controller {
           // eslint-disable-next-line no-await-in-loop
           const result = await ctx.model.Token.addApplyInfo(
             address,
-            symbol,
+            primaryTokenSymbol,
             amount,
             TransactionId,
             chainId,

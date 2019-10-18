@@ -30,7 +30,10 @@ module.exports = async app => {
       symbol
       // eslint-disable-next-line no-await-in-loop
     } = await tokenContract.GetNativeTokenInfo.call();
+    // eslint-disable-next-line no-await-in-loop
+    const primary = await tokenContract.GetPrimaryTokenSymbol.call();
     node.nativeTokenSymbol = symbol;
+    node.primaryTokenSymbol = primary.value;
     node.tokenContract = tokenContract;
   }
 };
