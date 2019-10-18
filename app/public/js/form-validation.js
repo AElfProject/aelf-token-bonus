@@ -26,7 +26,7 @@
           // return;
         } else {
           var address = $('#address')[0].value;
-          var symbol = $('#tokenSymbol')[0].value;
+          // var symbol = $('#tokenSymbol')[0].value;
           var memo = $('#transferMemo')[0].value;
 
           $.ajax({
@@ -34,7 +34,6 @@
             url: '/api/token/apply',
             data: {
               address: address,
-              symbol: symbol,
               memo: memo
             },
             headers: {
